@@ -1,27 +1,46 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class SideBarRozetka extends ParentalSetting {
 
     SideBarRozetka(WebDriver wdr) {
         super(wdr);
+
     }
 
-
-    @FindBy(xpath =  "/html/body/div[4]/div[2]/div/nav/div/div[1]/a/img")
+    @FindBy(xpath = "//a[@class='side-menu__logo']")
     private WebElement mainLabel;
 
-    @FindBy(xpath = "/html/body/div[4]/div[2]/div/nav/div/div[2]/a/b")
+    @FindBy(xpath = "//span[@class='side-menu__button-icon']/../following-sibling::a")
     private WebElement telephone;
 
-    public boolean findContactInfo() {
+    @FindBy(xpath = "(//a[@href='https://help.rozetka.com.ua/hc/ru'])[2]")
+    private WebElement contacts;
+
+/*    public boolean findContactInfo() {
         return mainLabel.isDisplayed() && telephone.isDisplayed();
+    }*/
+
+    public ContactInfo followToContacts() {
+        contacts.click();
+        return new ContactInfo(wdr);
     }
-    public boolean findMainLabel() {
-        return mainLabel.isDisplayed();
+
+    public WebElement getContacts(){
+        return contacts;
     }
-    public boolean findTelephone() {
-        return telephone.isDisplayed();
+    public WebElement getMainLabel(){
+        return mainLabel;
+    }
+    public void setMainLabel (WebElement mainLabel){
+        this.mainLabel = mainLabel;
+    }
+    public WebElement getTelephone(){
+        return telephone;
+    }
+    public void setTelephone (WebElement telephone){
+        this.telephone = telephone;
     }
 }

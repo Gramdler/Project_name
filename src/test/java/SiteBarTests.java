@@ -1,35 +1,40 @@
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class SiteBarTests {
 
     MainPageRozetka mainPageRozetka = new MainPageRozetka(new ChromeDriver());
-
+    SideBarRozetka sb;
+    ContactInfo cf;
 
     @BeforeClass
     public static void setup() {
-        System.setProperty("webdriver.chrome.driver" , "../chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "../chromedriver.exe");
+    }
+
+    @Before
+    public void openApplicationBeforeTests() throws InterruptedException{
+        mainPageRozetka.openMainPage();
+    }
+
+    @After
+    public void closeApplicationAfterTest(){
+        mainPageRozetka.ext();
     }
 
     @Test
-    public void checkThatSideBarContainsContactInformations() throws InterruptedException {
-        Assert.assertTrue(mainPageRozetka.openSideBar().findContactInfo());
+    public void checkThatSideBarContainsContactInformations() throws InterruptedException{
+        sb = mainPageRozetka.openSideBar();
+        Assert.assertTrue(sb.getMainLabel().isDisplayed()&&sb.getTelephone().isDisplayed());
     }
+
     @Test
-    public void checkThatSideBarLogo() throws InterruptedException {
-        Assert.assertTrue(mainPageRozetka.openSideBar().findMainLabel());
+    public void checkHelpLinks() throws InterruptedException {
+        cf = mainPageRozetka.openSideBar().followToContacts();
+        Assert.assertTrue(cf.checkThatAtLeastOneOfHelpLinksContainHelp());
     }
-    @Test
-    public void checkThatSideBarTelephone() throws InterruptedException {
-        Assert.assertTrue(mainPageRozetka.openSideBar().findTelephone());
-    }
-    @Test
-    public void checkThatButtonMenuInMainPage() throws InterruptedException {
-        Assert.assertTrue(mainPageRozetka.findButtonMenu());
-    }
+
 
 
 }

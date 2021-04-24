@@ -2,6 +2,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPageRozetka extends ParentalSetting {
 
@@ -9,22 +11,28 @@ public class MainPageRozetka extends ParentalSetting {
         super(wdr);
     }
 
-    //@FindBy(xpath = "/html/body/app-root/div/div[1]/rz-header/header/div/div/rz-mobile-user-menu/button")
-    //private WebElement buttonMenu;
+    @FindBy(xpath = "//button[@class='header__button' and @aria-label='Открыть меню']")
+    private WebElement buttonMenu;
 
+    public MainPageRozetka openMainPage() throws InterruptedException {
+        wdr.get("https://www.rozetka.com.ua"); // open main page rozetka
+        //Thread.sleep(3000);
+        return this;
+    }
 
     public SideBarRozetka openSideBar() throws InterruptedException {
-        WebElement buttonMenu = wdr.findElement(new By.ByXPath("/html/body/app-root/div/div[1]/rz-header/header/div/div/rz-mobile-user-menu/button"));
-        wait(1500);
         buttonMenu.click();
-        wait(1500);
+        //Thread.sleep(3000);
+        //new WebDriverWait(wdr, 10).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='side-menu__logo']")));
+        new WebDriverWait(wdr, 10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='side-menu__logo']")));
+        new WebDriverWait(wdr, 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='side-menu__logo']")));
         return new SideBarRozetka(wdr);
     }
 
-    public boolean findButtonMenu() throws InterruptedException {
-        wait(2500);
-        WebElement buttonMenu = wdr.findElement(new By.ByXPath("/html/body/app-root/div/div[1]/rz-header/header/div/div/rz-mobile-user-menu/button"));
-        return buttonMenu.isDisplayed();
+    public void ext(){
+        exit();
     }
+
+
 
 }
